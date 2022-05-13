@@ -1,76 +1,74 @@
 #!/usr/bin/env node
 
-var swig = require('../index')
-var optimist = require('optimist')
-var fs = require('fs')
-var path = require('path')
-var filters = require('../lib/filters')
-var utils = require('../lib/utils')
-var uglify = require('uglify-js')
+const swig = require('../index')
+const Yargs = require('yargs/yargs')
+const fs = require('fs')
+const path = require('path')
+const filters = require('../lib/filters')
+const utils = require('../lib/utils')
+const uglify = require('uglify-js')
 
-var command,
-  wrapstart = 'var tpl = ',
-  argv = optimist
-    .usage('\n Usage:\n' +
+let command
+let wrapstart = 'var tpl = '
+let argv = Yargs
+  .usage('\n Usage:\n' +
       '    $0 compile [files] [options]\n' +
       '    $0 run [files] [options]\n' +
       '    $0 render [files] [options]\n'
-      )
-    .describe({
-      v: 'Show the Swig version number.',
-      o: 'Output location.',
-      h: 'Show this help screen.',
-      j: 'Variable context as a JSON file.',
-      c: 'Variable context as a CommonJS-style file. Used only if option `j` is not provided.',
-      m: 'Minify compiled functions with uglify-js',
-      'filters': 'Custom filters as a CommonJS-style file',
-      'tags': 'Custom tags as a CommonJS-style file',
-      'options': 'Customize Swig\'s Options from a CommonJS-style file',
-      'wrap-start': 'Template wrapper beginning for "compile".',
-      'wrap-end': 'Template wrapper end for "compile".',
-      'method-name': 'Method name to set template to and run from.'
-    })
-    .alias('v', 'version')
-    .alias('o', 'output')
-    .default('o', 'stdout')
-    .alias('h', 'help')
-    .alias('j', 'json')
-    .alias('c', 'context')
-    .alias('m', 'minify')
-    .default('wrap-start', wrapstart)
-    .default('wrap-end', ';')
-    .default('method-name', 'tpl')
-    .check(function (argv) {
-      if (argv.v) {
-        return
-      }
+  )
+  .describe({
+    v: 'Show the Swig version number.',
+    o: 'Output location.',
+    h: 'Show this help screen.',
+    j: 'Variable context as a JSON file.',
+    c: 'Variable context as a CommonJS-style file. Used only if option `j` is not provided.',
+    m: 'Minify compiled functions with uglify-js',
+    'filters': 'Custom filters as a CommonJS-style file',
+    'tags': 'Custom tags as a CommonJS-style file',
+    'options': 'Customize Swig\'s Options from a CommonJS-style file',
+    'wrap-start': 'Template wrapper beginning for "compile".',
+    'wrap-end': 'Template wrapper end for "compile".',
+    'method-name': 'Method name to set template to and run from.'
+  })
+  .alias('v', 'version')
+  .alias('o', 'output')
+  .default('o', 'stdout')
+  .alias('h', 'help')
+  .alias('j', 'json')
+  .alias('c', 'context')
+  .alias('m', 'minify')
+  .default('wrap-start', wrapstart)
+  .default('wrap-end', ';')
+  .default('method-name', 'tpl')
+  .check(function (argv) {
+    if (argv.v) {
+      return
+    }
 
-      if (!argv._.length) {
-        throw new Error('')
-      }
+    if (!argv._.length) {
+      throw new Error('')
+    }
 
-      command = argv._.shift()
-      if (command !== 'compile' && command !== 'render' && command !== 'run') {
-        throw new Error('Unrecognized command "' + command + '". Use -h for help.')
-      }
+    command = argv._.shift()
+    if (command !== 'compile' && command !== 'render' && command !== 'run') {
+      throw new Error('Unrecognized command "' + command + '". Use -h for help.')
+    }
 
-      if (argv['method-name'] !== 'tpl' && argv['wrap-start'] !== wrapstart) {
-        throw new Error('Cannot use arguments "--method-name" and "--wrap-start" together.')
-      }
+    if (argv['method-name'] !== 'tpl' && argv['wrap-start'] !== wrapstart) {
+      throw new Error('Cannot use arguments "--method-name" and "--wrap-start" together.')
+    }
 
-      if (argv['method-name'] !== 'tpl') {
-        argv['wrap-start'] = 'var ' + argv['method-name'] + ' = '
-      }
-    })
-    .argv,
-  ctx = {},
-  out = function (file, str) {
-    console.log(str)
-  },
-  efn = function () { },
-  anonymous,
-  files,
-  fn
+    if (argv['method-name'] !== 'tpl') {
+      argv['wrap-start'] = 'var ' + argv['method-name'] + ' = '
+    }
+  })
+  .argv
+let ctx = {}
+let out = function (file, str) {
+  console.log(str)
+}
+let efn = function () { }
+let fn
 
 // What version?
 if (argv.v) {

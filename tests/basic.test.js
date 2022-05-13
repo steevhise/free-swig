@@ -14,8 +14,8 @@ function resetOptions () {
 }
 
 describe('version', function () {
-  it('is 1.4.2', function () {
-    expect(swig.version).to.equal('1.4.2')
+  it('is 0.1.0', function () {
+    expect(swig.version).to.equal('0.1.0')
   })
 })
 
@@ -301,7 +301,7 @@ describe('swig.renderFile', function () {
           throw new Error('bunk')
         }
       },
-      function (err, out) {
+      function (err) {
         expect(err.message).to.equal('bunk')
         done()
       }
@@ -339,7 +339,7 @@ describe('swig.renderFile', function () {
     swig.renderFile(
       path.resolve(__dirname, 'cases/not-existing'),
       {},
-      function (err, out) {
+      function (err) {
         expect(err.code).to.equal('ENOENT')
         done()
       }
