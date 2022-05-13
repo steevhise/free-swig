@@ -1,8 +1,8 @@
-var swig = require('../../lib/swig')
-var expect = require('expect.js')
-var _ = require('lodash')
+const swig = require('../../lib/swig');
+const expect = require('expect.js');
+const _ = require('lodash');
 
-var cases = [
+const cases = [
   { input: '{% for a in b %}{{ a }}{% endfor %}', out: '123' },
   { input: '{% for a in [1,2,3] %}{{ a }}{% endfor %}', out: '123' },
   { input: '{% for a in b %}{{ loop.index }}{% endfor %}', out: '123' },
@@ -43,38 +43,38 @@ var cases = [
     out: 'last happens only once'
   },
   { input: '{% for a in "foobar"|reverse %}{{ a }}{% endfor %}', out: 'raboof' }
-]
+];
 
 describe('Tag: for', function () {
-  var opts = {
+  const opts = {
     locals: {
       b: [1, 2, 3],
       c: { a: 'apple', b: 'banana' }
     }
-  }
+  };
   _.each(cases, function (c) {
     it(c.input + ' should render "' + c.out + '"', function () {
-      expect(swig.render(c.input, opts)).to.equal(c.out)
-    })
-  })
+      expect(swig.render(c.input, opts)).to.equal(c.out);
+    });
+  });
 
   it('resets loop and vars', function () {
     expect(
       swig.render('{% for a, b in c %}{% endfor %}{{ a }}{{ b }}{{ loop }}', {
         locals: { loop: 'z', a: 'x', b: 'y', c: { d: 'e', f: 'g' } }
       })
-    ).to.equal('xyz')
-  })
+    ).to.equal('xyz');
+  });
 
   it('throws on numbers as any argument', function () {
     expect(function () {
-      swig.render('{% for a in 32 %}{% endfor %}')
-    }).to.throwError(/Unexpected number "32" on line 1\./)
-  })
+      swig.render('{% for a in 32 %}{% endfor %}');
+    }).to.throwError(/Unexpected number "32" on line 1\./);
+  });
 
   it('throws on any comparator', function () {
     expect(function () {
-      swig.render('{% for a > 32 %}{% endfor %}')
-    }).to.throwError(/Unexpected token ">" on line 1\./)
-  })
-})
+      swig.render('{% for a > 32 %}{% endfor %}');
+    }).to.throwError(/Unexpected token ">" on line 1\./);
+  });
+});

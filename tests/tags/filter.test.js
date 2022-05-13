@@ -1,14 +1,14 @@
-var swig = require('../../lib/swig')
-var expect = require('expect.js')
-var _ = require('lodash')
+const swig = require('../../lib/swig');
+const expect = require('expect.js');
+const _ = require('lodash');
 
-var cases = [
+const cases = [
   { c: 'upper', e: 'PASS' },
   { c: 'default("foobar")', e: 'pass' },
   { c: 'replace("s", "d", "g")', e: 'padd' },
   { c: 'default(fn("foo"))', e: 'pass' },
   { c: 'default(foo)', e: 'pass' }
-]
+];
 
 describe('Tag: filter', function () {
   _.each(cases, function (c) {
@@ -17,17 +17,17 @@ describe('Tag: filter', function () {
         swig.render('{% filter ' + c.c + '%}pass{% endfilter %}', {
           locals: {
             fn: function (input) {
-              return input
+              return input;
             }
           }
         })
-      ).to.equal(c.e)
-    })
-  })
+      ).to.equal(c.e);
+    });
+  });
 
   it('throws on non-existent filter', function () {
     expect(function () {
-      swig.render('{% filter foobar %}{% endfilter %}')
-    }).to.throwError(/Filter "foobar" does not exist on line 1\./)
-  })
-})
+      swig.render('{% filter foobar %}{% endfilter %}');
+    }).to.throwError(/Filter "foobar" does not exist on line 1\./);
+  });
+});

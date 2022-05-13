@@ -1,24 +1,24 @@
-var swig = require('../lib/swig')
-var expect = require('expect.js')
-var _ = require('lodash')
-var Swig = swig.Swig
+const swig = require('../lib/swig');
+const expect = require('expect.js');
+const _ = require('lodash');
+const Swig = swig.Swig;
 
 function makeDate (tzOffset, y, m, d, h, i, s) {
-  var date = new Date(y, m || 0, d || 0, h || 0, i || 0, s || 0)
-  var offset = date.getTimezoneOffset()
+  let date = new Date(y, m || 0, d || 0, h || 0, i || 0, s || 0);
+  const offset = date.getTimezoneOffset();
 
   if (offset !== tzOffset) {
     // timezone offset in PST for september
-    date = new Date(date.getTime() - (offset * 60000 - tzOffset * 60000))
+    date = new Date(date.getTime() - (offset * 60000 - tzOffset * 60000));
   }
 
-  return date
+  return date;
 }
 
-var n = new Swig()
-var oDefaults = n.options
-var d = makeDate(420, 2011, 8, 6, 9, 5, 2)
-var cases = {
+const n = new Swig();
+const oDefaults = n.options;
+const d = makeDate(420, 2011, 8, 6, 9, 5, 2);
+const cases = {
   addslashes: [
     {
       v: '"Top O\' the\\ mornin"',
@@ -248,65 +248,65 @@ var cases = {
     { v: 'param%3D1%26anotherParam%3D2', e: 'param=1&amp;anotherParam=2' },
     { v: ['param%3D1', 'anotherParam%3D2'], e: 'param=1,anotherParam=2' }
   ]
-}
+};
 
 function resetOptions () {
-  swig.setDefaults(oDefaults)
-  swig.invalidateCache()
+  swig.setDefaults(oDefaults);
+  swig.invalidateCache();
 }
 
 describe('Filters:', function () {
-  beforeEach(resetOptions)
-  afterEach(resetOptions)
+  beforeEach(resetOptions);
+  afterEach(resetOptions);
 
   describe('can be set', function () {
     it('and used in templates', function () {
       swig.setFilter('foo', function () {
-        return 3
-      })
-      expect(swig.render('{{ b|foo() }}')).to.equal('3')
-    })
+        return 3;
+      });
+      expect(swig.render('{{ b|foo() }}')).to.equal('3');
+    });
 
     it("and throw when you don't pass a function", function () {
       expect(function () {
-        swig.setFilter('blah', 'not a function')
-      }).to.throwError(/Filter "blah" is not a valid function\./)
-    })
-  })
+        swig.setFilter('blah', 'not a function');
+      }).to.throwError(/Filter "blah" is not a valid function\./);
+    });
+  });
 
   it('defaultTZOffset affects date filter', function () {
-    swig.setDefaultTZOffset(240)
-    var d = 1316761200000
+    swig.setDefaultTZOffset(240);
+    const d = 1316761200000;
     expect(
       swig.render('{{ v|date("Y-m-d H:i a") }}', { locals: { v: d } })
-    ).to.equal('2011-09-23 03:00 am')
-    swig.setDefaultTZOffset(0)
-  })
+    ).to.equal('2011-09-23 03:00 am');
+    swig.setDefaultTZOffset(0);
+  });
 
   it('can accept params', function () {
     swig.setFilter('foo', function (inp, arg) {
-      return arg
-    })
-    expect(swig.render('{{ b|foo(3) }}')).to.equal('3')
-  })
+      return arg;
+    });
+    expect(swig.render('{{ b|foo(3) }}')).to.equal('3');
+  });
 
   it('can be very complexly nested', function () {
-    expect(swig.render('{{ b|default(c|default("3")) }}')).to.equal('3')
-  })
+    expect(swig.render('{{ b|default(c|default("3")) }}')).to.equal('3');
+  });
 
   it('throws on unknown filter', function () {
     expect(function () {
-      swig.render('{{ foo|thisisnotreal }}', { filename: 'foobar.html' })
+      swig.render('{{ foo|thisisnotreal }}', { filename: 'foobar.html' });
     }).to.throwError(
       /Invalid filter "thisisnotreal" on line 1 in file foobar\.html\./
-    )
-  })
+    );
+  });
 
   _.each(cases, function (cases, filter) {
     describe(filter, function () {
       _.each(cases, function (c) {
-        var code = '{{ ' + (c.c || 'v|' + filter) + ' }}'
-        var clone = _.cloneDeep(c.v)
+        let code = '{{ ' + (c.c || 'v|' + filter) + ' }}';
+        const clone = _.cloneDeep(c.v);
         it(
           code +
             ', v=' +
@@ -315,111 +315,111 @@ describe('Filters:', function () {
             c.e.replace(/\n/g, '\\n'),
           function () {
             if (/\|date\(/.test(code)) {
-              code = '{{ ' + c.c.replace(/"\)$/, '", 420)') + ' }}'
+              code = '{{ ' + c.c.replace(/"\)$/, '", 420)') + ' }}';
             }
-            expect(swig.render(code, { locals: { v: c.v } })).to.equal(c.e)
+            expect(swig.render(code, { locals: { v: c.v } })).to.equal(c.e);
           }
-        )
+        );
         it(
           code +
             ', v=' +
             JSON.stringify(clone) +
             ' should should not mutate value',
           function () {
-            expect(c.v).to.eql(clone)
+            expect(c.v).to.eql(clone);
           }
-        )
-      })
-    })
-  })
+        );
+      });
+    });
+  });
 
   it('gh-337: does not overwrite original data', function () {
-    var obj = { a: '<hi>' }
-    swig.render('{{ a }}', { locals: { a: obj } })
-    expect(obj.a).to.equal('<hi>')
-  })
+    const obj = { a: '<hi>' };
+    swig.render('{{ a }}', { locals: { a: obj } });
+    expect(obj.a).to.equal('<hi>');
+  });
 
   it('gh-365: filters applied to functions after dotkey', function () {
-    var locals = {
+    const locals = {
       w: {
         g: function () {
-          return 'foo'
+          return 'foo';
         },
         r: function () {
-          return [1, 2, 3]
+          return [1, 2, 3];
         }
       },
       b: function () {
-        return 'bar'
+        return 'bar';
       }
-    }
+    };
     expect(
       swig.render('{{ w.g("a")|replace("f", w.r().length) }}', {
         locals: locals
       })
-    ).to.equal('3oo')
+    ).to.equal('3oo');
     expect(
       swig.render('{{ "foo"|replace(w.g("a"), "bar") }}', { locals: locals })
-    ).to.equal('bar')
+    ).to.equal('bar');
     expect(
       swig.render('{{ "3"|replace(w.g("a").length, "bar") }}', {
         locals: locals
       })
-    ).to.equal('bar')
+    ).to.equal('bar');
     expect(
       swig.render('{{ "bar"|replace(b("a"), "foo") }}', { locals: locals })
-    ).to.equal('foo')
-  })
+    ).to.equal('foo');
+  });
 
   it('gh-397: Filter index applied to functions with arguments is one-off', function () {
-    var locals = {
+    const locals = {
       r: function () {
-        return [1, 2, 3]
+        return [1, 2, 3];
       },
       u: 'Tacos',
       t: 'L N'
-    }
+    };
 
     expect(
       swig.render("{{ t|replace('L', r('items').length)|replace('N', u) }}", {
         locals: locals
       })
-    ).to.equal('3 Tacos')
-  })
+    ).to.equal('3 Tacos');
+  });
 
   it('gh-441: Chaining filters on top of functions within tags', function () {
-    var locals = {
+    const locals = {
       getFoo: function () {
-        return [1, 3, 0]
+        return [1, 3, 0];
       }
-    }
+    };
 
-    expect(swig.render('{{ foo|default("bar")|reverse }}')).to.equal('rab')
+    expect(swig.render('{{ foo|default("bar")|reverse }}')).to.equal('rab');
     expect(
       swig.render("{{ getFoo('foo')|join('*')|reverse }}", { locals: locals })
-    ).to.equal('0*3*1')
+    ).to.equal('0*3*1');
     expect(
       swig.render("{% set foo = getFoo('foo')|join('+')|reverse %}{{ foo }}", {
         locals: locals
       })
-    ).to.equal('0+3+1')
+    ).to.equal('0+3+1');
     expect(
       swig.render(
         "{% for a in getFoo('foo')|sort(true)|reverse %}{{ a }}%{% endfor %}",
         { locals: locals }
       )
-    ).to.equal('3%1%0%')
+    ).to.equal('3%1%0%');
     expect(
       swig.render(
         '{% if "0+3+1" === getFoo("f")|join("+")|reverse %}yep{% endif %}',
         { locals: locals }
       )
-    ).to.equal('yep')
+    ).to.equal('yep');
     expect(
       swig.render(
         '{% if "0+3+1" === getFoo("f")|join("+")|reverse && null|default(true) %}yep{% endif %}',
         { locals: locals }
       )
-    ).to.equal('yep')
-  })
-})
+    ).to.equal('yep');
+  });
+});

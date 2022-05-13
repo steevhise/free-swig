@@ -1,8 +1,8 @@
-var swig = require('../../lib/swig')
-var expect = require('expect.js')
-var _ = require('lodash')
+const swig = require('../../lib/swig');
+const expect = require('expect.js');
+const _ = require('lodash');
 
-var leftCases = [
+const leftCases = [
   'foo[bar]',
   "foo['bar']",
   'foo["bar"]',
@@ -13,9 +13,9 @@ var leftCases = [
   'baz.bar',
   'baz.bar.baz',
   'baz["bar"].baz'
-]
+];
 
-var rightCases = [
+const rightCases = [
   { code: '= 1', result: '1' },
   { code: '= "burritos"', result: 'burritos' },
   { code: '= 1 + 3', result: '4' },
@@ -26,38 +26,38 @@ var rightCases = [
   { code: '= bar|default(1)', result: '1' },
   { code: '= foo === 1', result: 'true' },
   { code: '= 1 === 1 and not false', result: 'true' }
-]
+];
 
 describe('Tag: set', function () {
   _.each(leftCases, function (c) {
-    var s = '{% set bar = "bar" %}{% set ' + c + ' = "con queso" %}'
+    const s = '{% set bar = "bar" %}{% set ' + c + ' = "con queso" %}';
     it(s, function () {
       expect(
         swig.render(s + '{{ ' + c + ' }}', {
           locals: { foo: {}, baz: { bar: {} } }
         })
-      ).to.equal('con queso')
-    })
-  })
+      ).to.equal('con queso');
+    });
+  });
 
   _.each(rightCases, function (c) {
-    var s = '{% set foo ' + c.code + ' %}'
+    const s = '{% set foo ' + c.code + ' %}';
     it(s, function () {
       expect(swig.render(s + '{{ foo }}', { locals: { foo: 1 } })).to.equal(
         c.result
-      )
-    })
-  })
+      );
+    });
+  });
 
   it('throws on incorrect assignments', function () {
     expect(function () {
-      swig.render('{% set = foo %}')
-    }).to.throwError(/Unexpected assignment "=" on line 1\./)
+      swig.render('{% set = foo %}');
+    }).to.throwError(/Unexpected assignment "=" on line 1\./);
     expect(function () {
-      swig.render('{% set blah = foo /= foo %}')
-    }).to.throwError(/Unexpected assignment "\/=" on line 1\./)
+      swig.render('{% set blah = foo /= foo %}');
+    }).to.throwError(/Unexpected assignment "\/=" on line 1\./);
     expect(function () {
-      swig.render('{% set .foo = "bar" %}')
-    }).to.throwError()
-  })
-})
+      swig.render('{% set .foo = "bar" %}');
+    }).to.throwError();
+  });
+});
