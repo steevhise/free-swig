@@ -14,14 +14,6 @@ all:
 	@yarn install --depth=100 --loglevel=error
 	@yarn link &>/dev/null
 
-.INTERMEDIATE version: \
-	browser/comments.js \
-	docs/index.json
-
-version:
-	@sed -i.bak 's/${VERSION_REGEX}/${VERSION}/' lib/swig.js
-	@rm lib/swig.js.bak
-
 browser/comments.js: FORCE
 	@sed -i.bak 's/v${VERSION_REGEX}/v${VERSION}/' $@
 	@rm $@.bak

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const swig = require('../index')
-const Yargs = require('yargs/yargs')
+const Yargs = require('yargs')
 const fs = require('fs')
 const path = require('path')
 const filters = require('../lib/filters')
