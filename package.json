@@ -20,25 +20,23 @@
     "yargs": "^17.5.0"
   },
   "devDependencies": {
-    "blanket": "~1.1",
+    "blanket": "~1.2.3",
     "browserify": "17.0.0",
-    "copyfiles": "^1.0.0",
-    "expect.js": "~0.2",
-    "express": "~4.18.1",
-    "file": "~0.2",
+    "copyfiles": "^2.4.1",
+    "expect.js": "~0.3.1",
+    "file": "~0.2.2",
     "jsdoc": "3.6.10",
-    "less": "~1.4",
+    "less": "~1.7.4",
     "lodash": "~4.17.21",
-    "mocha": "^5.2.0",
-    "mocha-chrome": "^1.1.0",
-    "npm-run-all": "^4.1.3",
+    "mocha": "^6.2.3",
+    "mocha-chrome": "^2.2.0",
     "prettier-semistandard": "^0.1.1",
     "rerun-script": "^0.6.0",
-    "rimraf": "^2.5.2",
-    "semantic-release": "^15.9.8",
+    "rimraf": "^3.0.2",
+    "semantic-release": "^19.0.2",
     "semistandard": "^16.0.1",
     "static-site": "^1.3.1",
-    "travis-cov": "~0.2"
+    "travis-cov": "~0.2.5"
   },
   "license": "MIT",
   "main": "index",
@@ -56,9 +54,9 @@
     "jsdoc:tags": "jsdoc lib/tags/ -X > docs/data/tags.json",
     "jsdoc:loaders": "jsdoc lib/loaders/ -X > docs/data/loaders.json",
     "jsdoc:parser": "jsdoc lib/parser.js lib/lexer.js -X > docs/data/extending.json",
-    "jsdoc": "run-s jsdoc:swig jsdoc:filters jsdoc:tags jsdoc:loaders jsdoc:parser",
+    "jsdoc": "npm run jsdoc:swig && npm run jsdoc:filters && npm run jsdoc:tags and npm run jsdoc:loaders && npm run jsdoc:parser",
     "lint": "semistandard 'lib/**/*.js' 'tests/**/*.js'",
-    "predocs": "run-s jsdoc copy html",
+    "predocs": "npm run jsdoc && npm run copy && npm run html",
     "test": "make test reporter=spec && make test-browser && make coverage cov-reporter=travis-cov",
     "semantic-release": "semantic-release",
     "format": "prettier-standard 'lib/**/*.js' 'tests/**/*.js' 'scripts/**/*.js'"
@@ -94,21 +92,5 @@
       "tmp",
       "examples"
     ]
-  },
-  "lint-staged": {
-    "linters": {
-      "lib/**/*.js": [
-        "prettier-standard",
-        "git add"
-      ],
-      "tests/**/*.js": [
-        "prettier-standard",
-        "git add"
-      ],
-      "scripts/**/*.js": [
-        "prettier-standard",
-        "git add"
-      ]
-    }
   }
 }
