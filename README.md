@@ -2,19 +2,21 @@
 
 [//]: # ([![semantic-release]&#40;https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg&#41;]&#40;https://github.com/semantic-release/semantic-release&#41;)
 
-[//]: # ( [![Build Status]&#40;http://img.shields.io/travis/node-swig/swig-templates/master.svg?style=flat&#41;]&#40;http://travis-ci.org/node-swig/swig-templates&#41; [![NPM version]&#40;http://img.shields.io/npm/v/swig-templates.svg?style=flat&#41;]&#40;https://www.npmjs.org/package/swig-templates&#41; [![NPM Downloads]&#40;http://img.shields.io/npm/dm/swig-templates.svg?style=flat&#41;]&#40;https://www.npmjs.org/package/swig-templates&#41; [![JavaScript Style Guide]&#40;https://img.shields.io/badge/code_style-standard-brightgreen.svg&#41;]&#40;https://standardjs.com&#41;)
+[//]: # ( [![Build Status]&#40;http://img.shields.io/travis/node-swig/swig-templates/master.svg?style=flat&#41;]&#40;http://travis-ci.org/node-swig/swig-templates&#41; [![NPM version]&#40;http://img.shields.io/npm/v/swig-templates.svg?style=flat&#41;]&#40;https://www.npmjs.org/package/free-swig&#41; [![NPM Downloads]&#40;http://img.shields.io/npm/dm/free-swig.svg?style=flat&#41;]&#40;https://www.npmjs.org/package/free-swig&#41; [![JavaScript Style Guide]&#40;https://img.shields.io/badge/code_style-semistandard-brightgreen.svg&#41;]&#40;https://standardjs.com&#41;)
 
 
 [Swig](http://node-swig.github.io/swig-templates/) is an awesome, Django/Jinja-like template engine for node.js.
 
-#### seeking maintainers
-Swig is a phenominal project and a template engine that quitely, but strongly, stands tall against the others in a domain full of template engines. Originally developed by [Paul Armstrong](https://web.archive.org/web/20160311170700/https://github.com/paularmstrong/swig/issues/628) swig was, after he stepped down, maintained by a group who apparently have now abandoned it. We here at Freecycle are trying to keep it going.   If you are interested in being a collaborator, check out the discussions section, and let's discuss how to proceed.
+#### Seeking co-maintainers
+Swig is a phenomenal project and a template engine that quitely, but strongly, stands tall against the others in a domain full of template engines. Originally developed by [Paul Armstrong](https://web.archive.org/web/20160311170700/https://github.com/paularmstrong/swig/issues/628) swig was, after he stepped down, maintained by a group who apparently have now abandoned it. We here at Freecycle are trying to keep it going.   If you are interested in being a collaborator, check out the discussions section, and let's discuss how to proceed.
+
+Note: for now, this fork doesn't support browser or command line. We don't need those at Freecycle so we're not dealing with it. But if someone wants to co-maintain and take either or both of those on, great.
 
 Features
 --------
 
-* Available for node.js **and** major web browsers!
-* [Express](http://expressjs.com/) compatible.
+* Available for node.js.
+* [Express](http://expressjs.com/) and [hapi](https://hapi.dev) compatible.
 * Object-Oriented template inheritance.
 * Apply filters and transformations to output in your templates.
 * Automatically escapes all output for safe HTML rendering.
