@@ -1,7 +1,7 @@
 {
-  "name": "swig-templates",
-  "version": "0.1.0",
-  "description": "A simple, powerful, and extendable templating engine for node.js and browsers, similar to Django, Jinja2, and Twig.",
+  "name": "free-swig",
+  "version": "1.5.0",
+  "description": "A simple, powerful, and extendable templating engine for node.js, similar to Django, Jinja2, and Twig.",
   "keywords": [
     "template",
     "templating",
@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "blanket": "~1.2.3",
-    "browserify": "17.0.0",
     "copyfiles": "^2.4.1",
     "expect.js": "~0.3.1",
     "file": "~0.2.2",
@@ -29,16 +28,16 @@
     "less": "~4.1.2",
     "lodash": "~4.17.21",
     "mocha": "^6.2.3",
+    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "semantic-release": "^19.0.2",
     "semistandard": "^16.0.1",
-    "static-site": "^1.3.1",
-    "travis-cov": "~0.2.5"
+    "static-site": "^1.3.1"
   },
   "license": "MIT",
   "main": "index",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=12.0.0"
   },
   "bin": {
     "swig": "./bin/swig.js"
@@ -54,9 +53,8 @@
     "jsdoc": "npm run jsdoc:swig && npm run jsdoc:filters && npm run jsdoc:tags and npm run jsdoc:loaders && npm run jsdoc:parser",
     "lint": "semistandard 'lib/**/*.js' 'tests/**/*.js'",
     "predocs": "npm run jsdoc && npm run copy && npm run html",
-    "test": "make test reporter=spec && make coverage cov-reporter=travis-cov",
-    "semantic-release": "semantic-release",
-    "format": "prettier-standard 'lib/**/*.js' 'tests/**/*.js' 'scripts/**/*.js'"
+    "test": "nyc mocha --exclude test/bin/* tests",
+    "semantic-release": "semantic-release"
   },
   "watches": {
     "copy": "docs/**/*.{ico,css,js}",

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const swig = require('../index')
-const Yargs = require('yargs')
+const Yargs = require('yargs/yargs')
 const fs = require('fs')
 const path = require('path')
 const filters = require('../lib/filters')
@@ -10,7 +10,7 @@ const uglify = require('uglify-js')
 
 let command
 let wrapstart = 'var tpl = '
-let argv = Yargs
+let argv = Yargs   // i know this doesnt work. can't be bothered yet.
   .usage('\n Usage:\n' +
       '    $0 compile [files] [options]\n' +
       '    $0 run [files] [options]\n' +
