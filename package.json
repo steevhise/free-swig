@@ -1,6 +1,6 @@
 {
   "name": "free-swig",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "A simple, powerful, and extendable templating engine for node.js, similar to Django, Jinja2, and Twig.",
   "keywords": [
     "template",
@@ -16,7 +16,7 @@
     "url": "https://github.com/freecycle/swig-templates.git"
   },
   "engines": {
-    "node": ">=14.14.0"
+    "node": ">=12.0.0"
   },
   "dependencies": {
     "uglify-js": "3.15.5",
@@ -36,9 +36,6 @@
   },
   "license": "MIT",
   "main": "index",
-  "engines": {
-    "node": ">=12.0.0"
-  },
   "bin": {
     "swig": "./bin/swig.js"
   },
