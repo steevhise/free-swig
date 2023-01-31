@@ -50,7 +50,7 @@
     "jsdoc:tags": "jsdoc lib/tags/ -X > docs/data/tags.json",
     "jsdoc:loaders": "jsdoc lib/loaders/ -X > docs/data/loaders.json",
     "jsdoc:parser": "jsdoc lib/parser.js lib/lexer.js -X > docs/data/extending.json",
-    "jsdoc": "npm run jsdoc:swig && npm run jsdoc:filters && npm run jsdoc:tags and npm run jsdoc:loaders && npm run jsdoc:parser",
+    "jsdoc": "npm run jsdoc:swig && npm run jsdoc:filters && npm run jsdoc:tags && npm run jsdoc:loaders && npm run jsdoc:parser",
     "lint": "semistandard 'lib/**/*.js' 'tests/**/*.js'",
     "predocs": "npm run jsdoc && npm run copy && npm run html",
     "test": "nyc mocha --exclude test/bin/* tests",
