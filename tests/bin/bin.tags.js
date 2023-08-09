@@ -7,7 +7,7 @@ function compile (compiler, args, content) {
 }
 
 exports.tortilla = {
-  parse: parse,
-  compile: compile,
+  parse,
+  compile,
   ends: true
 };

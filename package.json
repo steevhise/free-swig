@@ -27,12 +27,12 @@
     "expect.js": "~0.3.1",
     "file": "~0.2.2",
     "jsdoc": "4.0.0",
-    "less": "~4.1.2",
+    "less": "~4.2.0",
     "lodash": "~4.17.21",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
-    "semistandard": "^16.0.1"
+    "semistandard": "^17.0.0"
   },
   "license": "MIT",
   "main": "index",
