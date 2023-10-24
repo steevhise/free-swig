@@ -1,6 +1,6 @@
 {
   "name": "free-swig",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "A simple, powerful, and extendable templating engine for node.js, similar to Django, Jinja2, and Twig.",
   "keywords": [
     "template",
