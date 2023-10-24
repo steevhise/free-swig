@@ -30,7 +30,6 @@
     "less": "~4.2.0",
     "lodash": "~4.17.21",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "semistandard": "^17.0.0"
   },
@@ -50,7 +49,7 @@
     "jsdoc": "npm run jsdoc:swig && npm run jsdoc:filters && npm run jsdoc:tags && npm run jsdoc:loaders && npm run jsdoc:parser",
     "lint": "semistandard 'lib/**/*.js' 'tests/**/*.js'",
     "predocs": "npm run jsdoc && npm run copy && npm run html",
-    "test": "nyc mocha --exclude test/bin/* tests",
+    "test": "mocha --exclude test/bin/* tests",
     "semantic-release": "semantic-release"
   },
   "watches": {
