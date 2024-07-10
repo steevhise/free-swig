@@ -14,8 +14,8 @@ function resetOptions () {
 }
 
 describe('version', function () {
-  it('is 1.5.1', function () {
-    expect(swig.version).to.equal('1.5.3');
+  it('is 1.5.5', function () {
+    expect(swig.version).to.equal('1.5.5');
   });
 });
 
